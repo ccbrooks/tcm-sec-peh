@@ -1,0 +1,679 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>A day in the life of an ethical hacker</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="4430a1de-6ea0-4b88-9c5c-68114989cc56" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="https://www.notion.so/icons/drafts_purple.svg"/></div><h1 class="page-title">A day in the life of an ethical hacker</h1></header><div class="page-body"><p id="2d78bec2-6a87-4956-b422-6e2960ad3b31" class="">A pen tester’s day-to-day:<div class="indented"><p id="3e93a2cb-159e-4295-ad47-535d3c6e2717" class="">perform assessment</p><p id="eae0b713-10f5-47d7-ac77-ab59d02a683a" class="">write a report</p><p id="89a8a7b1-3946-433b-8db4-f6cf944f8a79" class="">debrief</p><p id="6dbfafe5-395e-4dc3-b495-1ef6581ea5a7" class="">
+</p></div></p><p id="a66769fb-a3dd-461c-b109-438dac6bfa3b" class="">Def<mark class="highlight-blue"> external pen test</mark> - looking at an org’s security from the outside<div class="indented"><p id="d16f43ea-87f3-4d7d-9785-ed1da9a65590" class="">Trying to hack in from another location</p><p id="af5d5295-e47b-4fba-b94f-f8b5694a8e7b" class="">The methodology focuses on Open-Source Intelligence (OSINT) gathering</p><p id="01cee749-2f86-4dec-9261-827dceb00a43" class="">Typically takes 32-40 hrs and then 8-16 hrs for reporting</p><p id="60131046-5cfd-4c8a-8bda-48a65edc147e" class="">How can we use “basic” info against org (who are the employees, what breaches are they involved in, etc.)</p><p id="9137c4e5-e0b5-4dd1-9326-22c900625e56" class="">Cheaper than other forms of assessments (good way for org to “test you out”</p><p id="aeb32db6-6f39-4415-9b29-3a7b6bbbfb0d" class="">
+</p></div></p><p id="af0f91cc-60d1-4888-9eea-dcf8cb2d4ce4" class="">Def <mark class="highlight-blue">internal pen test</mark> - assessing an org’s security from the inside<div class="indented"><p id="e8c912a5-6080-4df2-ac5c-6dbbd621b11e" class="">Breach perimeter (phishing email, break into physical building, send laptop to company, etc)</p><p id="1d284700-d276-4b6e-bd9f-f15c32fc1b06" class="">The methodology focuses on active directory attacks</p><p id="3b5f42d3-1a2b-4f0b-9106-bf1abf2af152" class="">Def <mark class="highlight-blue">active directory attack</mark> - </p><p id="972f21b5-96dc-4cde-97b7-e62985584467" class="">Typically takes 32-40 hrs and then 8-16 hrs for reporting</p></div></p><p id="13663665-7708-464c-b4ba-b7438612b1ea" class="">
+</p><p id="60eb9cc6-37e0-46f2-bb5b-eacb9b15dd99" class="">*More websites to networks</p><p id="c70dfe28-79ec-4679-bc68-7fa91d958006" class="">Def <mark class="highlight-blue">web app pen test</mark> - assessing an org’s web app security<div class="indented"><p id="dc20f58b-9a5d-47fc-ae40-92e9ba4a6aa5" class="">The methodology focuses on web-based attacks and the OWASP testing guidelines</p><p id="ae8d8868-7e10-4e9d-af62-3740d4b78474" class="">Def <mark class="highlight-blue">OWASP</mark> - open web application security project</p><p id="25b770e5-7b87-4464-be04-ec3bc26551ec" class="">Typically takes 32-40 hrs and then 8-16 hrs for reporting</p><ul id="952dca87-d5f2-4452-bedc-5451ff5e05ed" class="bulleted-list"><li style="list-style-type:disc">OWASP Top 10 attacks<ul id="dc12f3cb-6556-4003-b7ba-922a135fad27" class="bulleted-list"><li style="list-style-type:circle"><a href="https://owasp.org/Top10/">OWASP Top 10:2021</a></li></ul><p id="27f9d31b-c33b-4d0b-ab09-fcf8cf2a26f4" class="">
+</p></li></ul></div></p><p id="b99c8484-e057-416e-a223-79c8725a2ede" class="">Def <mark class="highlight-blue">wireless pen test</mark> - assessing an org’s wireless network security<div class="indented"><p id="09624f38-d403-40e2-a3e8-c0e9e381ccda" class="">The methodology depends on network being used:<div class="indented"><p id="92387e3b-10cc-4f5f-bac7-1cd67f028bd8" class="">if guest network → get on guest network and test segmentation</p><p id="d9678795-6092-4826-8b99-cd8d509e9d29" class="">if pre-shared key → test key for password strength (WPA2-PSK)</p><p id="4cfe2138-37c7-4645-a067-c6b5d714858e" class="">enterprise-based → (WPA2 Enterprise)</p><p id="00c9ae12-3629-43b0-869c-cc5cb8376d5a" class="">Typically takes 4-8 hrs per SSID and then 2-4 hrs for reporting</p></div></p><p id="d9c061bb-3197-4c1b-9e1c-b6462ca8a1c5" class="">Need wireless adapter</p><p id="4e99f1d7-05c2-4781-8e16-64dad74f1b86" class="">
+</p><p id="aa79a537-941f-4b17-8015-b70f06edb8e4" class="">Def <mark class="highlight-blue">physical pen test</mark> - assessing an org’s physical security and/or end-user training<div class="indented"><p id="06ec7164-8590-44da-84ff-d59650b90094" class="">The methodology depends on tasks and goals</p><p id="8558e058-9844-4c08-a403-5e793352c68a" class="">Going on site and trying to break into building (picking locks, stealing badges, etc)</p><p id="49cafb0c-217b-43d1-8780-e03589ce005f" class="">Typically lasts 16-40 hrs and then 4-8 hrs for reporting</p><p id="5ef452fe-69f6-42a2-bc0a-9537094de981" class="">
+</p></div></p><p id="fb0a8f63-2bbf-4dd6-9065-9fd8624dc049" class="">Def <mark class="highlight-blue">social engineering</mark> - creating a campaign against an org<div class="indented"><p id="121d88a1-e7bb-47ca-84fa-e8668c884987" class="">phishing - sending emails with links and seeing who clicks it</p><p id="bce73ab7-7cf6-43ac-8f6b-b7c7851e2171" class="">vishing - calling people and saying we’re from IT (getting password or code from clients</p><p id="91ec22e9-0623-4bc1-8569-f0b984581e60" class="">smishing - sending texts to users and waiting for potential responses</p><p id="645f95ca-a3da-494b-99b3-ccd4b96bf136" class="">Typically lasts 16-40 hrs and then 4-8 hrs for reporting</p><p id="c7b87067-e31f-4d71-a898-bb47f4d78cb4" class="">
+</p></div></p><p id="d0ffc5fd-0224-4423-a85f-9d7d534423d2" class="">More types of pen testing:<div class="indented"><p id="162170b8-15c4-4e47-b7a4-7b56f67e2662" class="">mobile pen testing</p><p id="2d6db527-0c23-4cde-a1e2-250b1fb5e4ca" class="">IoT pen testing</p><p id="4701cc78-09d9-4c26-a093-19dac951843b" class="">Red Team Engagements - <strong>sneak</strong> in creatively</p><p id="0af686c4-b8ca-4582-9786-58d7836c04af" class="">Purple Team Engagements - tabletop exercises with blue team (defensive) members</p></div></p><p id="7aa27324-1cef-4ce5-bdd3-dbc73332ff92" class="">
+</p><p id="68ba3016-3005-465f-811f-fefe93e5173f" class="">*Weakest link in any org is a human</p><p id="77469bbf-13c9-4ce2-afac-a86d4a809fde" class="">
+</p><p id="95afb1eb-18c0-44e8-bd2c-123edb06c70e" class="">To be a strong pen tester, need:<div class="indented"><ol type="1" id="9fd11972-c649-4024-a740-c434567abff4" class="numbered-list" start="1"><li>technical skills</li></ol><ol type="1" id="cbddf41a-e514-4c33-8ef6-fbae7c81e02e" class="numbered-list" start="2"><li>writing/communicating skills</li></ol><ol type="1" id="aa8141c5-8a0b-49f8-934b-9eb3243b1f17" class="numbered-list" start="3"><li>presentation skills (technical and non-technical)</li></ol><ol type="1" id="ef20dcdc-9a93-4050-b8ee-9d56778896e8" class="numbered-list" start="4"><li>CLEAR recommendations (clear and technical)</li></ol></div></p></div></p><p id="a5d1ce09-50b7-4ef3-87bd-c3d70d769361" class="">Report within a week (high level and technical)</p><p id="587c5e5f-4ed7-4afa-887f-c64bd1f3c78c" class="">Executive summary (non-technical)</p><p id="eae7c786-b0d4-41a8-9c85-52f8f98e53c9" class="">
+</p><p id="e81f9750-a959-4b96-9107-1c993493a7ab" class="">Debrief process:<div class="indented"><p id="b744481c-c19f-4763-99bf-33e1afa0d3ee" class="">Walk client through report findings (non-technical and technical)</p><p id="40a99dab-d9e4-401d-bb32-ab72b6f2d26a" class="">Gives clients opportunity to ask questions, challenge findings, and report concerns</p></div></p></div></article></body></html>
